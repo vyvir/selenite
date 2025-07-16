@@ -229,7 +229,7 @@ class SettingsWindow(QtWidgets.QWidget):
             ("binpath", f"{bin_dir}"),
             ("dir", f"{srb2_dir}"),
             ("json", "https://ms.srb2.org/list.json"),
-            ("ua", "Sonic Robo Blast 2/v2.2.13"),
+            ("ua", "Sonic Robo Blast 2/v2.2.15"),
             ("cdb", "dbip-country-lite-2024-10.mmdb"),
         ]
 
