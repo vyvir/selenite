@@ -89,7 +89,7 @@ class SettingsWindow(QtWidgets.QWidget):
 
         self.load_data()
         if not main.flatpak_check():
-            self.combobox1.model().item(0).setEnabled(False)
+            #self.combobox1.model().item(0).setEnabled(False)
             self.combobox1.setCurrentIndex(1)
 
         if self.results[0][1] == "flatpak run org.srb2.SRB2":
