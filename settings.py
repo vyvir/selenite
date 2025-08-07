@@ -185,7 +185,7 @@ class SettingsWindow(QtWidgets.QWidget):
 
     @QtCore.Slot()
     def cancel(self):
-        sys.exit(app.exec())
+        self.close()
 
     @QtCore.Slot()
     def choose_bin(self):
@@ -284,6 +284,8 @@ class SettingsWindow(QtWidgets.QWidget):
             self.cursor.executemany(f"UPDATE var_list SET Value = ? WHERE Name = ?", params)
         self.connection.commit()
         self.connection.close
+
+        self.close()
     
     @QtCore.Slot()
     def create_connection(self):
