@@ -24,6 +24,21 @@ class MainWindow(QtWidgets.QWidget):
             "selenite",
         )
 
+        self.flatpak_local_dir = srb2_dir = os.path.join(
+            os.environ.get("XDG_DATA_HOME") or f'{ os.environ["HOME"] }/.var/app/org.srb2.SRB2',
+            ".srb2",
+        )
+
+        self.native_local_dir = srb2_dir = os.path.join(
+            os.environ.get("XDG_DATA_HOME") or f'{ os.environ["HOME"] }',
+            ".srb2",
+        )
+        
+        self.local_path = os.path.join(
+            os.environ.get("XDG_DATA_HOME") or f'{ os.environ["HOME"] }/.local/share',
+            "selenite",
+        )
+
         if not os.path.exists(self.local_path):  # Creates $HOME/.local/share/selenite
             os.mkdir(self.local_path)
 
@@ -494,29 +509,21 @@ class MainWindow(QtWidgets.QWidget):
         
         self.cursor.execute("create table var_list (Name text, Value text)")
 
-        if main.flatpak_check():
+        if flatpak_check():
             bin_dir = "flatpak run org.srb2.SRB2"
             srb2_dir = self.flatpak_local_dir
-        elif main.native_check():
+        elif native_check():
             bin_dir = "/usr/bin/srb2"
             srb2_dir = self.native_local_dir
         else:
             bin_dir = ""
             srb2_dir = ""
-
-        if bin_dir == "":
-            pass
-        else:
-            ver_cmd = bin_dir + " -dedicated +version +quit 2>&1 | grep -oP 'Sonic Robo Blast 2 v\\K[0-9]+\\.[0-9]+\\.[0-9]+'"
-            ver_str = (subprocess.check_output(ver_cmd, shell=True, text=True)).strip()
-        
-        self.p.start("flatpak", ["run", "org.srb2.SRB2", "-connect", f"{ip}:{port}"])
         
         self.Var_list = [
             ("binpath", f"{bin_dir}"),
             ("dir", f"{srb2_dir}"),
             ("json", "https://ms.srb2.org/list.json"),
-            ("ua", f"Sonic Robo Blast 2/v{ver_str}"),
+            ("ua", "Sonic Robo Blast 2/v2.2.15"),
             ("cdb", "dbip-country-lite-2024-10.mmdb"),
         ]
 
@@ -524,6 +531,8 @@ class MainWindow(QtWidgets.QWidget):
 
         self.connection.commit()
         self.connection.close
+
+        self.load_data()
 
 def flatpak_check():
     if os.path.isdir('/var/lib/flatpak/app/org.srb2.SRB2'):
