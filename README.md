@@ -2,7 +2,7 @@
 
 <img src="https://github.com/vyvir/selenite/blob/main/preview.jpg" alt="Preview">
 
-pip3 install maxminddb re ipaddress PySide6
+pip3 install maxminddb requests ipaddress PySide6
 
 python3 main.py
 
