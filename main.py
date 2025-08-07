@@ -482,7 +482,15 @@ class MainWindow(QtWidgets.QWidget):
         self.results = self.cursor.fetchall()
 
         #results = [item[1] for item in results]
-        colcnt = len(self.results[0])
+        try:
+            colcnt = len(self.results[0])
+        except IndexError:
+            self.reset_data()
+            if self.results:
+                colcnt = len(self.results[0])
+            else:
+                pass
+        
         rowcnt = len(self.results)
 
         self.srb2dir = self.results[1][1]
